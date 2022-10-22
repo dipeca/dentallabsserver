@@ -14,7 +14,7 @@ module.exports = {
       if (db)
       {
         _db = db.db("ident");
-        console.log("Successfully connected to MongoDB."); 
+        console.log("Successfully connected to MongoDB.  " + Db +" " + Object.keys(db)); 
       }
       return callback(err);
          });
