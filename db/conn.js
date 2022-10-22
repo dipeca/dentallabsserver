@@ -9,6 +9,7 @@ var _db;
  
 module.exports = {
   connectToServer: function (callback) {
+    console.log("URL MongoDB.  " + Db ); 
     client.connect(function (err, db) {
       // Verify we got a good "db" object
       if (db)
