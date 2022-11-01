@@ -40,25 +40,19 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 recordRoutes.route("/records/:user").get(function (req, res) {
   let db_connect = dbo.getDb();
   console.log("dpca: " + req.params.user);
-  let myquery = { "user": req.params.user };
+  let myquery;
+  if(req.params.user == -1) {
+    myquery = {};
+  } else {
+    myquery = { "user": req.params.user };
+  }
+  
   db_connect
     .collection("records")
     .find(myquery)
     .toArray(function (err, result) {
       console.log("dpca: " + myquery);
       console.log("dpca: " + result);
-      if (err) throw err;
-      res.json(result);
-    });
-});
-
-// This section will help you get a single record by id
-recordRoutes.route("/user/:id").get(function (req, res) {
-  let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
-  db_connect
-    .collection("users")
-    .findOne(myquery, function (err, result) {
       if (err) throw err;
       res.json(result);
     });
@@ -81,6 +75,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     sent_to_email: req.body.sent_to_email,
     trials: req.body.trials,
     user: req.body.user,
+    state: req.body.state,
   };
   db_connect.collection("records").insertOne(myobj, function (err, res) {
     if (err) throw err;
